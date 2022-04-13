@@ -1,28 +1,27 @@
-import React, { useState, useEffect } from "react";
-import CategoryTable from "../component/category";
+import React, { useState, useEffect } from 'react';
+import ProductTable from '../component/product';
+import { app } from '../helper/connection';
 import Loading from "../component/loading";
-import { app } from '../helper/connection'
 import { BSON } from "realm-web";
 
-const CategoryPage = () => {
+const ProductListPage = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const client = app.currentUser.mongoClient('mongodb-atlas');
   const headCells = [
     { field: "id", title: "Id" },
-    { field: "categoryName", title: "Category Name" },
+    { field: "productName", title: "Product Name" },
     { field: "createdAt", title: "Created At" },
     { field: "updatedAt", title: "Updated At" },
   ];
-
   useEffect(() => {
     async function getData() {
-      const res = await client.db('ynhdb').collection('Category').find();
+      const res = await client.db('ynhdb').collection('Products').find();
       console.log(res);
       const trimmed = res.map(function (item, i) {
         return {
           "id": BSON.ObjectId(item._id).toString(),
-          "categoryName": item.categoryName,
+          "productName": item.productName,
           "createdAt": new Date(item.createdAt).toLocaleDateString(),
           "updatedAt": new Date(item.updatedAt).toLocaleDateString()
         };
@@ -38,18 +37,19 @@ const CategoryPage = () => {
   return (
     <>
       <div>
-        {loading &&
+        {loading ? (<Loading />) : (<ProductTable data={data} column={headCells} title="Product" app={app} />)}
+        {/* {loading &&
           (
             <div className="text-center">
               <Loading />
             </div>
           )}
         {
-          <CategoryTable data={data} column={headCells} title="Category" app={app} />
-        }
+          <ProductTable data={data} column={headCells} title="Product" app={app} />
+        } */}
       </div>
     </>
   );
 }
-export default CategoryPage;
 
+export default ProductListPage;
