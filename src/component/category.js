@@ -44,15 +44,15 @@ const CategoryTable = (props) => {
   useEffect(() => {
     setSrcData(data)
   },[])
-  const handleDelete = async (data) => {
+  const handleDelete = async (oldData) => {
     new Promise(resolve => {
       setTimeout(() => {
         resolve();
         const data = [...props.data];
         data.splice(data.indexOf(oldData), 1);
-        props.setData(data);
-      }, 600));
-    console.log(data)}
+        props.setSelected(data);
+      }, 600)})
+    console.log(data)
   };
   const handleCreate = async (obj) => {};
   const handleUpdate = async (id) => {};
