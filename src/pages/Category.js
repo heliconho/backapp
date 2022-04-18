@@ -3,16 +3,23 @@ import CategoryTable from "../component/category";
 import Loading from "../component/loading";
 import { app } from '../helper/connection'
 import { BSON } from "realm-web";
+import GenericTable from "../component/GenericTable";
 
 const CategoryPage = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const client = app.currentUser.mongoClient('mongodb-atlas');
+  // const headCells = [
+  //   { field: "id", title: "Id" },
+  //   { field: "categoryName", title: "Category Name" },
+  //   { field: "createdAt", title: "Created At" },
+  //   { field: "updatedAt", title: "Updated At" },
+  // ];
   const headCells = [
-    { field: "id", title: "Id" },
-    { field: "categoryName", title: "Category Name" },
-    { field: "createdAt", title: "Created At" },
-    { field: "updatedAt", title: "Updated At" },
+    { name: "id", width: 150 },
+    { name: "categoryName", width: 100 },
+    { name: "createdAt", width: 150 },
+    { name: "updatedAt", width: 150 },
   ];
 
   useEffect(() => {
@@ -45,7 +52,7 @@ const CategoryPage = () => {
             </div>
           )}
         {
-          <CategoryTable data={data} column={headCells} title="Category" app={app} />
+          <GenericTable tableData={data} tableColumn={headCells} loading={loading} app={app} pathto={'/category/create'} />
         }
       </div>
     </>

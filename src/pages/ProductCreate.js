@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Editor } from '@tinymce/tinymce-react'
-import axios from 'axios'
+import { app } from '../helper/connection';
 
 // import Loading from './Loading';
 var h2m = require('h2m')
@@ -15,9 +15,7 @@ const ProductPage = () => {
   const [description, setDescription] = useState({
     content: "",
     saved: false,
-    post: {
-      description: ""
-    },
+    post: { description: "" },
     urlImage: '',
     loading: false
   });
@@ -44,23 +42,23 @@ const ProductPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await axios.post('http://localhost:3000/api/product', {
-      "productName": productName,
-      "sku": sku,
-      "description": description.content
-    },
-      {
-        headers: {
-          "Content-Type": "application/json",
-        }
-      }).then((res) => console.log(res.status)).catch(e => console.log(e));
+    // await axios.post('http://localhost:3000/api/product', {
+    //   "productName": productName,
+    //   "sku": sku,
+    //   "description": description.content
+    // },
+    //   {
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //     }
+    //   }).then((res) => console.log(res.status)).catch(e => console.log(e));
 
   }
 
 
   return (
     <div>
-      <h2 style={{ 'textAlign': 'center' }}>Product Page</h2>
+      <h2 style={{ 'textAlign': 'center' }}>Create Product Page</h2>
       <div className="grid grid-cols-1 gap-4">
         <div className="container">
           <form onSubmit={e => handleSubmit(e)}>
@@ -206,13 +204,13 @@ const ProductPage = () => {
                         data.append('file', blobInfo.blob(), blobInfo.filename());
                         data.append('upload_preset', unsignedUploadPreset);
                         data.append('tags', 'browser_upload');
-                        axios.post(url, data)
-                          .then(function (res) {
-                            success(res.data.secure_url)
-                          })
-                          .catch(function (err) {
-                            console.log(err)
-                          });
+                        // axios.post(url, data)
+                        //   .then(function (res) {
+                        //     success(res.data.secure_url)
+                        //   })
+                        //   .catch(function (err) {
+                        //     console.log(err)
+                        //   });
                         reader.readAsDataURL(blobInfo.blob())
                       },
                     }}

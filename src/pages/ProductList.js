@@ -37,8 +37,8 @@ const ProductListPage = () => {
   return (
     <>
       <div>
-        {loading ? (<Loading />) : (<ProductTable data={data} column={headCells} title="Product" app={app} />)}
-        {/* {loading &&
+        {/* {loading ? (<Loading />) : (<ProductTable data={data} column={headCells} title="Product" app={app} />)} */}
+        {loading &&
           (
             <div className="text-center">
               <Loading />
@@ -46,7 +46,7 @@ const ProductListPage = () => {
           )}
         {
           <ProductTable data={data} column={headCells} title="Product" app={app} />
-        } */}
+        }
       </div>
     </>
   );

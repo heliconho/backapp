@@ -1,5 +1,4 @@
 import './App.css';
-import Clock from './component/clock';
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import HomePage from './pages/Home';
 import UserPage from './pages/User';
@@ -10,6 +9,8 @@ import { app } from './helper/connection';
 import React, { useState } from 'react';
 import { Grid } from '@material-ui/core'
 import ProductListPage from './pages/ProductList';
+import ProductCreatePage from './pages/ProductCreate';
+import CategoryCreatePage from './pages/CategoryCreate';
 
 
 function App() {
@@ -25,8 +26,10 @@ function App() {
           <Routes>
             <Route exact path="/" element={<HomePage />} />
             <Route exact path="product" element={<ProductListPage />} />
+            <Route exact path="product/create" element={<ProductCreatePage />} />
             <Route exact path="user" element={<UserPage />} />
             <Route exact path="category" element={<CategoryPage />} />
+            <Route exact path="category/create" element={<CategoryCreatePage />} />
           </Routes>
         </Grid>
       </Grid>
