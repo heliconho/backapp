@@ -3,16 +3,17 @@ import ProductTable from '../component/product';
 import { app } from '../helper/connection';
 import Loading from "../component/loading";
 import { BSON } from "realm-web";
+import GenericTable from '../component/GenericTable';
 
 const ProductListPage = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const client = app.currentUser.mongoClient('mongodb-atlas');
   const headCells = [
-    { field: "id", title: "Id" },
-    { field: "productName", title: "Product Name" },
-    { field: "createdAt", title: "Created At" },
-    { field: "updatedAt", title: "Updated At" },
+    { field: "id", width: 150 },
+    { field: "productName", width: 150 },
+    { field: "createdAt", width: 150 },
+    { field: "updatedAt", width: 150 }
   ];
   useEffect(() => {
     async function getData() {
@@ -45,7 +46,7 @@ const ProductListPage = () => {
             </div>
           )}
         {
-          <ProductTable data={data} column={headCells} title="Product" app={app} />
+          <GenericTable tableData={data} tableColumn={headCells} loading={loading} app={app} pathto={'/product/create'} />
         }
       </div>
     </>

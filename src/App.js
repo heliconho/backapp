@@ -21,7 +21,7 @@ function App() {
         <Grid item xs={2} md={2} style={{ display: "grid", gridAutoRow: "1fr", gridTemplateColumns: "1fr 1fr 1fr" }}>
           <NavSideBar />
         </Grid>
-        <Grid item xs md>
+        <Grid item xs>
           {user ? <UserDisplay user={user} /> : <Login setUser={setUser} />}
           <Routes>
             <Route exact path="/" element={<HomePage />} />

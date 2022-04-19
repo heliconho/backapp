@@ -1,7 +1,5 @@
 import { useEffect, useState } from 'react';
 import { app } from '../helper/connection';
-import Select from 'react-select';
-import Creatable, { useCreatable } from 'react-select/creatable';
 import CreatableSelect from 'react-select/creatable';
 
 
@@ -33,15 +31,6 @@ const CategoryCreatePage = (props) => {
   const handleChange = (newValue, actionMeta) => {
     console.group('Value Changed');
     setNewSubCategory([...newSubCategory, newValue]);
-    // console.log(newValue);
-    // if (newSubCategory.length === 0) { //first time
-    //   let tmpSubCat = [...newSubCategory, newValue]
-    //   setNewSubCategory(tmpSubCat);
-    // }
-    // else {
-
-    // }
-    // console.log(`action: ${actionMeta.action}`);
     console.groupEnd();
   };
 
