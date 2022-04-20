@@ -6,9 +6,6 @@ import 'rsuite-table/dist/css/rsuite-table.css'
 
 function GenericTable(props) {
   const { tableColumn, tableData, loading, pathto } = props;
-  useEffect(() => {
-    console.log(pathto)
-  })
   function HandleAddNew() {
     console.log(pathto);
     let navigate = useNavigate();
@@ -24,6 +21,11 @@ function GenericTable(props) {
       <Table
         data={tableData}
         loading={loading}
+        height={800}
+        wordWrap
+        bordered
+        cellBordered
+        affixHorizontalScrollbar
         onRowClick={data => {
           console.log(data);
         }}>

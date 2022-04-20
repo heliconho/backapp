@@ -17,22 +17,20 @@ function App() {
   const [user, setUser] = useState(app.currentUser);
   return (
     <div className="App">
-      <Grid container spacing={0}>
-        <Grid item xs={2} md={2} style={{ display: "grid", gridAutoRow: "1fr", gridTemplateColumns: "1fr 1fr 1fr" }}>
-          <NavSideBar />
-        </Grid>
-        <Grid item xs>
-          {user ? <UserDisplay user={user} /> : <Login setUser={setUser} />}
-          <Routes>
-            <Route exact path="/" element={<HomePage />} />
-            <Route exact path="product" element={<ProductListPage />} />
-            <Route exact path="product/create" element={<ProductCreatePage />} />
-            <Route exact path="user" element={<UserPage />} />
-            <Route exact path="category" element={<CategoryPage />} />
-            <Route exact path="category/create" element={<CategoryCreatePage />} />
-          </Routes>
-        </Grid>
-      </Grid>
+      <div style={{ backgroundColor: '#1d1d1d' }}>
+        <NavSideBar />
+      </div>
+      <div className='col' style={{ width: '100%' }}>
+        {user ? <UserDisplay user={user} /> : <Login setUser={setUser} />}
+        <Routes>
+          <Route exact path="/" element={<HomePage />} />
+          <Route exact path="product" element={<ProductListPage />} />
+          <Route exact path="product/create" element={<ProductCreatePage />} />
+          <Route exact path="user" element={<UserPage />} />
+          <Route exact path="category" element={<CategoryPage />} />
+          <Route exact path="category/create" element={<CategoryCreatePage />} />
+        </Routes>
+      </div>
     </div>
   );
 }

@@ -4,7 +4,17 @@
 */
 .App {
   text-align: center;
+  display:flex;
   width: 100%;
+}
+#header {
+  width: 10%;
+}
+#header .closemenu {
+  right:0;
+  z-index: 9999;
+  width:5%;
+  overflow:hidden;
 }
 /*
 #header {
