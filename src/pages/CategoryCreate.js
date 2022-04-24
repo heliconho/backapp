@@ -1,10 +1,13 @@
 import { useEffect, useState } from 'react';
 import { app } from '../helper/connection';
 import CreatableSelect from 'react-select/creatable';
+import { Button, FormControl } from '@material-ui/core';
+import { FormGroup, FormLabel, TextField } from '@material-ui/core';
 
 
 const CategoryCreatePage = (props) => {
   const [categoryName, setCategoryName] = useState("");
+  const [categoryNameCn, setCategoryNameCn] = useState("");
   const [subCategories, setSubCategories] = useState([]);
   const [newSubCategory, setNewSubCategory] = useState([]);
 
@@ -38,6 +41,7 @@ const CategoryCreatePage = (props) => {
     e.preventDefault();
     let data = {
       'categoryName': categoryName,
+      'categoryNameCn': categoryNameCn,
       'subCategories': newSubCategory,
       'createdAt': new Date(),
       'updatedAt': new Date()
@@ -47,19 +51,23 @@ const CategoryCreatePage = (props) => {
   return (
     <div>
       <h2 style={{ 'textAlign': 'center' }}>Create Category Page</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Category Name:</label>
-          <input type="text" value={categoryName} onChange={(e) => setCategoryName(e.target.value)} />
-        </div>
-        <div>
-          <label>SubCategories</label>
+      <FormControl style={{ width: '80%' }} onSubmit={handleSubmit}>
+        <FormGroup style={{ paddingTop: '1rem', paddingBottom: '1rem' }}>
+          <FormLabel>Category Name:</FormLabel>
+          <TextField id="categoryname-input" name="categoryname" label="Category Name Chinese" type="text" value={categoryName} onChange={(e) => setCategoryName(e.target.value)} />
+        </FormGroup>
+        <FormGroup style={{ paddingTop: '1rem', paddingBottom: '1rem' }}>
+          <FormLabel>Category Name（CN）:</FormLabel>
+          <TextField id="categorynamecn-input" name="categorynameCn" label="Category Name Chinese" type="text" value={categoryNameCn} onChange={(e) => setCategoryNameCn(e.target.value)} />
+        </FormGroup>
+        <FormGroup style={{ paddingTop: '1rem', paddingBottom: '1rem' }}>
+          <FormLabel>SubCategories</FormLabel>
           <CreatableSelect autoFocus={true} isMulti name={'Sub Category'} onChange={handleChange} options={subCategories} />
           {/* <Select options={subCategories} /> */}
-        </div>
+        </FormGroup>
+        <Button variant="contained" type="submit" onClick={handleSubmit}>Submit</Button>
+      </FormControl>
 
-      </form>
-      <button onClick={(e) => { handleSubmit(e) }}>Submit</button>
     </div>
   )
 

@@ -6,6 +6,7 @@ import TextField from "@material-ui/core/TextField";
 import { FormGroup, FormLabel } from '@material-ui/core';
 import Select from 'react-select';
 import { BSON } from "realm-web";
+import Button from '@material-ui/core/Button';
 
 
 // import Loading from './Loading';
@@ -28,6 +29,7 @@ const unsignedUploadPreset = 'adz8s31b';
 //           "weight": item.weight,
 
 const ProductPage = () => {
+  const [loading, setLoading] = useState(true);
   const [productNameCn, setProductNameCn] = useState('');
   const [productNameEn, setProductNameEn] = useState('');
   const [brand, setBrand] = useState('');
@@ -68,29 +70,26 @@ const ProductPage = () => {
   });
   useEffect(() => {
     const res = app.currentUser.mongoClient('mongodb-atlas').db('ynhdb').collection('Category').find().then(res => { return res }).catch(err => { return err });
-    async function getCategoryData(res) {
-      const trimmed = res.map(function (item, i) {
+    const getCategoryData = async (res) => {
+      const data = await res;
+      const trimmed = data.map(function (item, i) {
         return {
           value: BSON.ObjectId(item._id).toString(),
           label: item.categoryName
         };
       });
       setCategory(trimmed);
-    }
-    async function getSubCategoryData(res) {
-      const header = res.map(item => {
-        return (item.subCategories)
-      }).flat();
-      const trimmed = header.map(item => {
-        return ({
-          value: item,
-          label: item
+      const subcat = data.map(function (item, i) {
+        item.subCategories.map(item => {
+          return ({
+            value: item,
+            label: item
+          })
         })
       })
-      setSubCategories(trimmed);
+      setSubCategories(subcat);
     }
     getCategoryData(res);
-    getSubCategoryData(res);
     const input = document.getElementsByTagName("input")
     if (descriptionCn.loading && input) {
       input.disabled = true
@@ -104,7 +103,8 @@ const ProductPage = () => {
     else if (!descriptionEn.loading && input) {
       input.disabled = false
     }
-  })
+    setLoading(false);
+  }, [loading])
   const handleDescriptionCn = (content, editor) => {
     // console.log(e.target.getContent())
     console.log(content)
@@ -194,20 +194,20 @@ const ProductPage = () => {
   return (
     <div>
       <h2 style={{ 'textAlign': 'center' }}>Create Product Page</h2>
-      <FormControl style={{ width: '100%' }}>
-        <FormGroup style={{ paddingTop: '1rem', paddingBottom: '1rem' }}>
+      <FormControl style={{ width: '80%', paddingRight: '2rem', paddingLeft: '1rem', paddingBottom: '2rem' }}>
+        <FormGroup style={styles.formControl}>
           <FormLabel>Product Name Chinese</FormLabel>
           <TextField id="productnamecn-input" name="productnamecn" label="Product Name Chinese" type="text" value={productNameCn} onChange={handleProductNameCnChange} />
         </FormGroup>
-        <FormGroup style={{ paddingTop: '1rem', paddingBottom: '1rem' }}>
+        <FormGroup style={styles.formControl}>
           <FormLabel>Product Name English</FormLabel>
           <TextField id="productnameen-input" name="productnameen" label="Product Name English" type="text" value={productNameEn} onChange={handleProductNameEnChange} />
         </FormGroup>
-        <FormGroup style={{ paddingTop: '1rem', paddingBottom: '1rem' }}>
+        <FormGroup style={styles.formControl}>
           <FormLabel>SKU</FormLabel>
           <TextField id="sku-input" name="sku" label="SKU" type="text" value={sku} onChange={handleSkuChange} />
         </FormGroup>
-        <FormGroup style={{ paddingTop: '1rem', paddingBottom: '1rem' }}>
+        <FormGroup style={styles.formControl}>
           <FormLabel>Brand</FormLabel>
           <TextField id="brand-input" name="brand" label="Brand" type="text" value={brand} onChange={handleBrandChange} />
         </FormGroup>
@@ -219,7 +219,7 @@ const ProductPage = () => {
           <FormLabel>Sub Category</FormLabel>
           <Select autoFocus={true} menuPosition="absolute" isMulti name={'SubCategory'} onChange={handleSubCategoryChange} options={subCategories} />
         </FormGroup>
-        <FormGroup style={{ paddingTop: '1rem', paddingBottom: '1rem' }}>
+        <FormGroup style={styles.formControl}>
           <FormLabel>Description Chinese</FormLabel>
           <div className="editor">
             <div style={{ width: '100%' }}>
@@ -247,7 +247,7 @@ const ProductPage = () => {
                   automatic_uploads: true,
                   file_picker_types: 'image',
                   file_picker_callback: function (cb, value, meta) {
-                    var input = document.createElement('input');
+                    var input = document.createElement('input_cn');
                     input.setAttribute('type', 'file');
                     input.setAttribute('accept', 'image/*');
                     var url = `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`;
@@ -317,12 +317,12 @@ const ProductPage = () => {
             </div>
           </div>
         </FormGroup>
-        <FormGroup style={{ paddingTop: '1rem', paddingBottom: '1rem' }}>
+        <FormGroup style={styles.formControl}>
           <FormLabel>Description English</FormLabel>
           <div className="editor">
             <div style={{ width: '100%' }}>
               <Editor
-                id='tiny-react_37007362141648373049453'
+                // id='tiny-react_37007362141648373049453'
                 apiKey={apiKey}
                 initialValue='<p>Input Product Description</p>'
                 init={{
@@ -345,7 +345,7 @@ const ProductPage = () => {
                   automatic_uploads: true,
                   file_picker_types: 'image',
                   file_picker_callback: function (cb, value, meta) {
-                    var input = document.createElement('input');
+                    var input = document.createElement('input_en');
                     input.setAttribute('type', 'file');
                     input.setAttribute('accept', 'image/*');
                     var url = `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`;
@@ -415,37 +415,40 @@ const ProductPage = () => {
             </div>
           </div>
         </FormGroup>
-        <FormGroup style={{ paddingTop: '1rem', paddingBottom: '1rem' }}>
+        <FormGroup style={styles.formControl}>
           <FormLabel>Price Original</FormLabel>
           <TextField id="priceOrig-input" name="priceorig" label="Price Original" type="text" value={priceOrig} onChange={handlePriceOriginal} />
         </FormGroup>
-        <FormGroup style={{ paddingTop: '1rem', paddingBottom: '1rem' }}>
+        <FormGroup style={styles.formControl}>
           <FormLabel>Price Fake</FormLabel>
           <TextField id="priceFake-input" name="pricefake" label="Price Fake" type="text" value={priceFake} onChange={handlePriceFake} />
         </FormGroup>
-        <FormGroup style={{ paddingTop: '1rem', paddingBottom: '1rem' }}>
+        <FormGroup style={styles.formControl}>
           <FormLabel>Width</FormLabel>
           <TextField id="width-input" name="width" label="width" type="text" value={width} onChange={handleWidth} />
         </FormGroup>
-        <FormGroup style={{ paddingTop: '1rem', paddingBottom: '1rem' }}>
+        <FormGroup style={styles.formControl}>
           <FormLabel>Height</FormLabel>
           <TextField id="height-input" name="height" label="height" type="text" value={height} onChange={handleHeight} />
         </FormGroup>
-        <FormGroup style={{ paddingTop: '1rem', paddingBottom: '1rem' }}>
+        <FormGroup style={styles.formControl}>
           <FormLabel>Length</FormLabel>
           <TextField id="length-input" name="length" label="length" type="text" value={length} onChange={handleLength} />
         </FormGroup>
-        <FormGroup style={{ paddingTop: '1rem', paddingBottom: '1rem' }}>
+        <FormGroup style={styles.formControl}>
           <FormLabel>Weight</FormLabel>
           <TextField id="weight-input" name="weight" label="weight" type="text" value={weight} onChange={handleWeight} />
         </FormGroup>
-        <FormGroup style={{ paddingTop: '1rem', paddingBottom: '1rem' }}>
+        <FormGroup style={styles.formControl}>
           <FormLabel>Quantity</FormLabel>
           <TextField id="quantity-input" name="quantity" label="quantity" type="text" value={quantity} onChange={handleQuantity} />
         </FormGroup>
-        <FormGroup style={{ paddingTop: '1rem', paddingBottom: '1rem' }}>
+        <FormGroup style={styles.formControl}>
           <FormLabel>Status</FormLabel>
           <Select options={statusOptions} onChange={handleStatusChange} />
+        </FormGroup>
+        <FormGroup style={styles.formControl}>
+          <Button style={{ height: '2rem' }} onClick={handleSubmit}>Submit</Button>
         </FormGroup>
       </FormControl>
     </div>

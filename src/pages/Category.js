@@ -18,6 +18,7 @@ const CategoryPage = () => {
   const headCells = [
     { name: "id", width: 150 },
     { name: "categoryName", width: 100 },
+    { name: "categoryNameCn", width: 100 },
     { name: "createdAt", width: 150 },
     { name: "updatedAt", width: 150 },
   ];
@@ -30,6 +31,7 @@ const CategoryPage = () => {
         return {
           "id": BSON.ObjectId(item._id).toString(),
           "categoryName": item.categoryName,
+          "categoryNameCn": item.categoryNameCn,
           "createdAt": new Date(item.createdAt).toLocaleDateString(),
           "updatedAt": new Date(item.updatedAt).toLocaleDateString()
         };

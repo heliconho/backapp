@@ -24,7 +24,7 @@ const ProductListPage = () => {
           "height": item.height,
           "length": item.length,
           "width": item.width,
-          "weight": item.weight,
+          "weight(KG)": item.weight,
           "status": item.status == undefined ? '未知' : item.status,
           "createdAt": new Date(item.createdAt).toLocaleDateString() == undefined ? '' : new Date(item.createdAt).toLocaleDateString(),
           "updatedAt": new Date(item.updatedAt).toLocaleDateString() == undefined ? '' : new Date(item.updatedAt).toLocaleDateString(),
